@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2015 by anonymous (http://jsbin.com/feyefejake/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+</head>
+<body>
+  
+  
+  <table class="table table" style="width:400px;">
+    <tr>
+      <th>輸入地址的一部分</th>
+      <td><input type="text" id="addressInput" style="width: 100%;"></td>
+    </tr>
+    <tr>
+      <th>國家</th>
+      <td id='c'></td>
+    </tr>
+    <tr>
+      <th>縣市（台灣）</th>
+      <td id='1'></td>
+    </tr>
+    <tr>
+      <th>鄉鎮市區（台灣）</th>
+      <td id='3'></td>
+    </tr>
+    <tr>
+      <th>街道名</th>
+      <td id='r'></td>
+    </tr>
+  </table>
+<script id="jsbin-javascript">
+$('#addressInput').on('input', function(){
+
+
+
+
+  $.getJSON( "https://maps.googleapis.com/maps/api/geocode/json?address=" + $(this).val(), function( data ) {
+    if( data ){
+      if (data.status == "OK" ){
+//         console.log(data.results[0].address_components);
+
+
+
+for(var i in data.results[0].address_components){
+  if(data.results[0].address_components[i].types[0]  == "country") {
+//             console.log(data.results[0].address_components[i].long_name);
+$('#c').html(data.results[0].address_components[i].long_name);
+}
+if(data.results[0].address_components[i].types[0]  == "administrative_area_level_1") {
+//             console.log(data.results[0].address_components[i].long_name);
+$('#1').html(data.results[0].address_components[i].long_name);
+}
+if(data.results[0].address_components[i].types[0]  == "administrative_area_level_3") {
+//             console.log(data.results[0].address_components[i].long_name);
+$('#3').html(data.results[0].address_components[i].long_name);
+}
+if(data.results[0].address_components[i].types[0]  == "route") {
+//             console.log(data.results[0].address_components[i].long_name);
+$('#r').html(data.results[0].address_components[i].long_name);
+}
+}
+
+
+
+}
+else{
+  $('#c, #1, #3, #r').html('');
+
+}
+
+}
+});
+
+});
+</script>
+</body>
+</html>
